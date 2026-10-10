@@ -166,7 +166,6 @@ int32_t IdGenerator::nextId() const {
         totalBytes += bytes;
     }
 #else
-#if defined(__linux__)
     // On host, <sys/random.h> / GRND_NONBLOCK is not available
     while (true) {
         status_t result = getRandomBytes(reinterpret_cast<uint8_t*>(&id), sizeof(id));
@@ -174,7 +173,6 @@ int32_t IdGenerator::nextId() const {
             break;
         }
     }
-#endif // __linux__
 #endif // __ANDROID__
     return (id & SEQUENCE_NUMBER_MASK) | static_cast<int32_t>(mSource);
 }

@@ -216,38 +216,19 @@ cc_library {
         "-DANDROID_UTILS_REF_BASE_DISABLE_IMPLICIT_CONSTRUCTION",
     ],
     srcs: [
-        "AccelerationCurve.cpp",
-        "CoordinateFilter.cpp",
         "Input.cpp",
-        "InputConsumer.cpp",
-        "InputConsumerNoResampling.cpp",
         "InputDevice.cpp",
         "InputEventLabels.cpp",
-        "InputTransport.cpp",
-        "InputVerifier.cpp",
         "Keyboard.cpp",
         "KeyCharacterMap.cpp",
-        "KeyboardClassifier.cpp",
         "KeyLayoutMap.cpp",
-        "MotionPredictor.cpp",
-        "MotionPredictorMetricsManager.cpp",
-        "OneEuroFilter.cpp",
-        "PrintTools.cpp",
         "PropertyMap.cpp",
-        "Resampler.cpp",
-        "TfLiteMotionPredictor.cpp",
-        "TouchVideoFrame.cpp",
-        "VelocityControl.cpp",
-        "VelocityTracker.cpp",
-        "VirtualInputDevice.cpp",
         "VirtualKeyMap.cpp",
     ],
 
     header_libs: [
-        "flatbuffer_headers",
         "jni_headers",
         "libeigen",
-        "tensorflow_headers",
     ],
     export_header_lib_headers: [
         "jni_headers",
@@ -255,28 +236,17 @@ cc_library {
     ],
 
     generated_headers: [
-        "cxx-bridge-header",
-        "libinput_cxx_bridge_header",
         "toolbox_input_labels",
     ],
 
     shared_libs: [
-        "android.companion.virtualdevice.flags-aconfig-cc",
         "libbase",
-        "libbinder",
-        "libbinder_ndk",
         "libcutils",
         "liblog",
-        "libPlatformProperties",
-        "libtinyxml2",
         "libutils",
-        "libz", // needed by libkernelconfigs
-        "server_configurable_flags",
     ],
 
-    ldflags: [
-        "-Wl,--exclude-libs=libtflite_static.a",
-    ],
+
 
     sanitize: {
         undefined: true,
@@ -285,28 +255,84 @@ cc_library {
     },
 
     static_libs: [
-        "inputconstants-cpp",
         "libui-types",
-        "libtflite_static",
-        "libkernelconfigs",
     ],
 
-    whole_static_libs: [
-        "com.android.input.flags-aconfig-cc",
-        "libinput_rust_ffi",
-        "iinputflinger_aidl_lib_static",
-    ],
+
 
     export_static_lib_headers: [
         "libui-types",
     ],
 
-    export_generated_headers: [
-        "cxx-bridge-header",
-        "libinput_cxx_bridge_header",
-    ],
+
 
     target: {
+        // Runtime input handling depends on Linux, Binder and Rust.
+        // Darwin builds only the keymap support needed by validatekeymaps.
+        linux: {
+            srcs: [
+                "AccelerationCurve.cpp",
+                "CoordinateFilter.cpp",
+                "InputConsumer.cpp",
+                "InputConsumerNoResampling.cpp",
+                "InputTransport.cpp",
+                "InputVerifier.cpp",
+                "KeyboardClassifier.cpp",
+                "MotionPredictor.cpp",
+                "MotionPredictorMetricsManager.cpp",
+                "OneEuroFilter.cpp",
+                "PrintTools.cpp",
+                "Resampler.cpp",
+                "TfLiteMotionPredictor.cpp",
+                "TouchVideoFrame.cpp",
+                "VelocityControl.cpp",
+                "VelocityTracker.cpp",
+                "VirtualInputDevice.cpp",
+            ],
+            header_libs: [
+                "flatbuffer_headers",
+                "tensorflow_headers",
+            ],
+            generated_headers: [
+                "cxx-bridge-header",
+                "libinput_cxx_bridge_header",
+            ],
+            shared_libs: [
+                "android.companion.virtualdevice.flags-aconfig-cc",
+                "libbinder",
+                "libbinder_ndk",
+                "libPlatformProperties",
+                "libtinyxml2",
+                "libz", // needed by libkernelconfigs
+                "server_configurable_flags",
+            ],
+            static_libs: [
+                "inputconstants-cpp",
+                "libtflite_static",
+                "libkernelconfigs",
+            ],
+            whole_static_libs: [
+                "com.android.input.flags-aconfig-cc",
+                "libinput_rust_ffi",
+                "iinputflinger_aidl_lib_static",
+            ],
+            export_generated_headers: [
+                "cxx-bridge-header",
+                "libinput_cxx_bridge_header",
+            ],
+            ldflags: [
+                "-Wl,--exclude-libs=libtflite_static.a",
+            ],
+        },
+        darwin: {
+            include_dirs: ["frameworks/native/libs/gui/include"],
+        },
+        darwin_x86_64: {
+            include_dirs: ["bionic/libc/kernel/uapi/asm-x86"],
+        },
+        darwin_arm64: {
+            include_dirs: ["bionic/libc/kernel/uapi/asm-arm64"],
+        },
         android: {
             required: [
                 "motion_predictor_model_prebuilt",

@@ -85,6 +85,9 @@ cc_test {
     },
     test_suites: ["device-tests"],
     target: {
+        darwin: {
+            enabled: false,
+        },
         android: {
             static_libs: [
                 "libstatslog_libinput",

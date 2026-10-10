@@ -26,6 +26,7 @@
 #include <utils/Errors.h>
 #include <utils/Tokenizer.h>
 #include <utils/Unicode.h>
+#include <utils/Vector.h>
 #include <map>
 
 // Maximum number of keys supported by KeyCharacterMaps
