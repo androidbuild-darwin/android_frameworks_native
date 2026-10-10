@@ -75,6 +75,9 @@ cc_test {
     },
     test_suites: ["device-tests"],
     target: {
+        darwin: {
+            enabled: false,
+        },
         host: {
             sanitize: {
                 address: true,
