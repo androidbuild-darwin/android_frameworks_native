@@ -326,6 +326,10 @@ cc_library {
         },
         darwin: {
             include_dirs: ["frameworks/native/libs/gui/include"],
+            generated_headers: ["inputconstants-cpp-source"],
+            export_generated_headers: ["inputconstants-cpp-source"],
+            header_libs: ["libbinder_enum_headers"],
+            export_header_lib_headers: ["libbinder_enum_headers"],
         },
         darwin_x86_64: {
             include_dirs: ["bionic/libc/kernel/uapi/asm-x86"],
