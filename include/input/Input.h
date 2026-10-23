@@ -23,10 +23,8 @@
  */
 
 #include <android/input.h>
-#ifdef __linux__
 #include <android/os/IInputConstants.h>
 #include <android/os/MotionEventFlag.h>
-#endif
 #include <android/os/PointerIconType.h>
 #include <math.h>
 #include <stdint.h>

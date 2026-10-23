@@ -25,9 +25,7 @@
 #include <unordered_map>
 #include <vector>
 
-#ifdef __linux__
 #include <android/os/IInputConstants.h>
-#endif
 
 namespace android {
 
@@ -423,11 +421,7 @@ extern std::string getInputDeviceConfigurationFilePathByName(
 
 enum ReservedInputDeviceId : int32_t {
     // Device id representing an invalid device
-#ifdef __linux__
     INVALID_INPUT_DEVICE_ID = android::os::IInputConstants::INVALID_INPUT_DEVICE_ID,
-#else
-    INVALID_INPUT_DEVICE_ID = -2,
-#endif
     // Device id of a special "virtual" keyboard that is always present.
     VIRTUAL_KEYBOARD_ID = -1,
     // Device id of the "built-in" keyboard if there is one.
