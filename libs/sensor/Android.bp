@@ -38,6 +38,11 @@ cc_library {
     name: "libsensor",
 
     host_supported: true,
+    target: {
+        darwin: {
+            enabled: false,
+        },
+    },
     cflags: [
         "-Wall",
         "-Werror",
