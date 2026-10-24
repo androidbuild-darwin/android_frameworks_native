@@ -610,6 +610,7 @@ void KeyCharacterMap::addLockedMetaKey(Vector<KeyEvent>& outEvents,
     }
 }
 
+#ifndef __APPLE__
 std::unique_ptr<KeyCharacterMap> KeyCharacterMap::readFromParcel(Parcel* parcel) {
     if (parcel == nullptr) {
         ALOGE("%s: Null parcel", __func__);
@@ -742,6 +743,8 @@ void KeyCharacterMap::writeToParcel(Parcel* parcel) const {
         parcel->writeInt32(toAndroidKeyCode);
     }
 }
+
+#endif
 
 // --- KeyCharacterMap::Parser ---
 

@@ -497,6 +497,7 @@ void PointerCoords::scale(float globalScaleFactor, float windowXScale, float win
     scaleAxisValue(*this, AMOTION_EVENT_AXIS_RELATIVE_Y, windowYScale);
 }
 
+#ifndef __APPLE__
 status_t PointerCoords::readFromParcel(Parcel* parcel) {
     bits = parcel->readInt64();
 
@@ -524,6 +525,8 @@ status_t PointerCoords::writeToParcel(Parcel* parcel) const {
     parcel->writeBool(isResampled);
     return OK;
 }
+
+#endif
 
 void PointerCoords::tooManyAxes(int axis) {
     ALOGW("Could not set value for axis %d because the PointerCoords structure is full and "
@@ -796,6 +799,7 @@ void MotionEvent::applyTransform(const std::array<float, 9>& matrix) {
     }
 }
 
+#ifndef __APPLE__
 static status_t readFromParcel(ui::Transform& transform, const Parcel& parcel) {
     float dsdx, dtdx, tx, dtdy, dsdy, ty;
     status_t status = parcel.readFloat(&dsdx);
@@ -942,6 +946,8 @@ status_t MotionEvent::writeToParcel(Parcel* parcel) const {
     }
     return OK;
 }
+
+#endif
 
 bool MotionEvent::isTouchEvent(uint32_t source, int32_t action) {
     if (isFromSource(source, AINPUT_SOURCE_CLASS_POINTER)) {
